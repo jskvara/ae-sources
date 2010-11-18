@@ -2,7 +2,6 @@ package servlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import dao.EMF;
 import entity.TodoEntity;
 import guice.GuiceModule;
 import java.io.IOException;
@@ -22,15 +21,6 @@ public class TodoServlet extends HttpServlet {
 
 		Injector injector = Guice.createInjector(new GuiceModule());
 		TodoService todoService = injector.getInstance(TodoService.class);
-
-		/*try {
-			todoService.create("text");
-
-			PrintWriter out = response.getWriter();
-			out.println(todoService.getAllTodos());
-		} finally {
-			EMF.get().close();
-		}*/
 
 		String action = request.getParameter("action");
 		if ("new".equalsIgnoreCase(action)) {
@@ -55,7 +45,6 @@ public class TodoServlet extends HttpServlet {
 
 		Collection<TodoEntity> todos = todoService.getAllTodos();
 		request.setAttribute("todos", todos);
-		// EMF.get().close();
 
 		ServletContext context = getServletContext();
 		RequestDispatcher rd = context.getRequestDispatcher("/WEB-INF/viewTodos.jsp");
