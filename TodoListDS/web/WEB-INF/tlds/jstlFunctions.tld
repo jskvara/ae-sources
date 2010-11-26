@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+  <tlib-version>1.0</tlib-version>
+  <short-name>jstlFunctions</short-name>
+  <uri>/WEB-INF/tlds/jstlFunctions</uri>
+  <display-name>Custom functions</display-name>
+
+  <function>
+	  <name>formatDate</name>
+	  <function-class>jstl.JstlFunctions</function-class>
+	  <function-signature>java.lang.String formatDate(java.util.Date, java.lang.String)</function-signature>
+  </function>
+</taglib>
