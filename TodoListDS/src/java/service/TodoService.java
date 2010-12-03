@@ -16,6 +16,10 @@ public class TodoService {
 		return todoDAO.getAll();
 	}
 
+	public Collection<TodoEntity> getAllTodos(int limit) {
+		return todoDAO.getAll(limit);
+	}
+
 	public void create(String text) {
 		TodoEntity todo = new TodoEntity(null, text, new Date());
 		todoDAO.create(todo);

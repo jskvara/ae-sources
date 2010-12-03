@@ -15,11 +15,14 @@ public class TodoDAOImpl implements TodoDAO {
 	}
 
 	public List<TodoEntity> getAll() {
+		return getAll(100);
+	}
+	public List<TodoEntity> getAll(int limit) {
 		Query query = pm.newQuery(TodoEntity.class);
 		// query.setFilter("done == doneParam");
 		// query.declareParameters("String doneParam");
 		query.setOrdering("date DESC");
-		query.setRange(0, 10);
+		query.setRange(0, limit);
 
 		List<TodoEntity> todos = new ArrayList<TodoEntity>();
 		try {

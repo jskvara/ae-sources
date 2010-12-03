@@ -20,13 +20,15 @@ public class TodoDAOImpl implements TodoDAO {
 	}
 
 	public List<TodoEntity> getAll() {
+		return getAll(100);
+	}
+
+	public List<TodoEntity> getAll(int limit) {
 		Query query = new Query("todoEntity");
 		query.addSort("date", Query.SortDirection.DESCENDING);
 		List<TodoEntity> todoEntities = new ArrayList<TodoEntity>();
 		PreparedQuery p = datastore.prepare(query);
-//		int limit = p.countEntities(FetchOptions.Builder.withLimit(100)) > 0 ?
-//			p.countEntities(FetchOptions.Builder.withLimit(100)) : 1;
-		List<Entity> entities =  p.asList(FetchOptions.Builder.withLimit(100));
+		List<Entity> entities =  p.asList(FetchOptions.Builder.withLimit(limit));
 		for (Entity e : entities) {
 			todoEntities.add(new TodoEntity(e));
 		}

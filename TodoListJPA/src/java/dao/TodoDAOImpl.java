@@ -14,7 +14,12 @@ public class TodoDAOImpl implements TodoDAO {
 	}
 
 	public List<TodoEntity> getAll() {
+		return getAll(100);
+	}
+
+	public List<TodoEntity> getAll(int limit) {
 		Query query = em.createQuery("SELECT t FROM TodoEntity t ORDER BY t.created DESC");
+		query.setMaxResults(limit);
 		return query.getResultList();
 	}
 

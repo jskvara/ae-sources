@@ -12,7 +12,11 @@ public class TodoService {
 	TodoDAO todoDAO;
 
 	public Collection<TodoEntity> getAllTodos() {
-		return todoDAO.getAll();
+		return todoDAO.getAll(100);
+	}
+
+	public Collection<TodoEntity> getAllTodos(int limit) {
+		return todoDAO.getAll(limit);
 	}
 
 	public void create(String text) {
