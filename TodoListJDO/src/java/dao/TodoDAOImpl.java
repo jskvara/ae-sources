@@ -1,8 +1,8 @@
 package dao;
 
-// import com.google.appengine.api.datastore.Query;
 import entity.TodoEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
@@ -15,7 +15,17 @@ public class TodoDAOImpl implements TodoDAO {
 	}
 
 	public List<TodoEntity> getAll() {
-		return getAll(100);
+		Query query = pm.newQuery(TodoEntity.class);
+		query.setOrdering("date DESC");
+
+		List<TodoEntity> todos = new ArrayList<TodoEntity>();
+		try {
+			todos = (List<TodoEntity>) query.execute();
+		} finally {
+			query.closeAll();
+		}
+
+		return todos;
 	}
 	public List<TodoEntity> getAll(int limit) {
 		Query query = pm.newQuery(TodoEntity.class);
@@ -27,6 +37,24 @@ public class TodoDAOImpl implements TodoDAO {
 		List<TodoEntity> todos = new ArrayList<TodoEntity>();
 		try {
 			todos = (List<TodoEntity>) query.execute();
+		} finally {
+			query.closeAll();
+		}
+
+		return todos;
+	}
+
+	public List<TodoEntity> getRange(Date from, Date to) {
+		Query query = pm.newQuery(TodoEntity.class);
+		query.setFilter("date >= dateFromParam");
+		query.setFilter("date <= dateToParam");
+		query.declareImports("import java.util.Date;");
+		query.declareParameters("Date dateFromParam, Date dateToParam");
+		query.setOrdering("date DESC");
+
+		List<TodoEntity> todos = new ArrayList<TodoEntity>();
+		try {
+			todos = (List<TodoEntity>) query.execute(from, to);
 		} finally {
 			query.closeAll();
 		}

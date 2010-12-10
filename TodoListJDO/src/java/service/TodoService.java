@@ -12,15 +12,24 @@ public class TodoService {
 	TodoDAO todoDAO;
 
 	public Collection<TodoEntity> getAllTodos() {
-		return todoDAO.getAll(100);
+		return todoDAO.getAll();
 	}
 
 	public Collection<TodoEntity> getAllTodos(int limit) {
 		return todoDAO.getAll(limit);
 	}
 
+	public Collection<TodoEntity> getRange(Date from, Date to) {
+		return todoDAO.getRange(from, to);
+	}
+
 	public void create(String text) {
 		TodoEntity todo = new TodoEntity(null, text, new Date());
+		todoDAO.create(todo);
+	}
+
+	public void create(String text, Date date) {
+		TodoEntity todo = new TodoEntity(null, text, date);
 		todoDAO.create(todo);
 	}
 
