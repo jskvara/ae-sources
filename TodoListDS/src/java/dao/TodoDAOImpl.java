@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.FetchOptions.Builder.*;
 import com.google.appengine.api.datastore.PreparedQuery;
 import entity.TodoEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TodoDAOImpl implements TodoDAO {
@@ -20,7 +21,16 @@ public class TodoDAOImpl implements TodoDAO {
 	}
 
 	public List<TodoEntity> getAll() {
-		return getAll(100);
+		Query query = new Query("todoEntity");
+		query.addSort("date", Query.SortDirection.DESCENDING);
+		List<TodoEntity> todoEntities = new ArrayList<TodoEntity>();
+		PreparedQuery p = datastore.prepare(query);
+		List<Entity> entities =  p.asList(FetchOptions.Builder.withLimit(999999999));
+		for (Entity e : entities) {
+			todoEntities.add(new TodoEntity(e));
+		}
+
+		return todoEntities;
 	}
 
 	public List<TodoEntity> getAll(int limit) {
@@ -32,7 +42,21 @@ public class TodoDAOImpl implements TodoDAO {
 		for (Entity e : entities) {
 			todoEntities.add(new TodoEntity(e));
 		}
-		System.out.println(todoEntities);
+
+		return todoEntities;
+	}
+
+	public List<TodoEntity> getRange(Date from, Date to) {
+		Query query = new Query("todoEntity");
+		query.addFilter("date", Query.FilterOperator.GREATER_THAN_OR_EQUAL, from);
+		query.addFilter("date", Query.FilterOperator.LESS_THAN_OR_EQUAL, to);
+		query.addSort("date", Query.SortDirection.DESCENDING);
+		List<TodoEntity> todoEntities = new ArrayList<TodoEntity>();
+		PreparedQuery p = datastore.prepare(query);
+		List<Entity> entities =  p.asList(FetchOptions.Builder.withLimit(999999999));
+		for (Entity e : entities) {
+			todoEntities.add(new TodoEntity(e));
+		}
 
 		return todoEntities;
 	}
